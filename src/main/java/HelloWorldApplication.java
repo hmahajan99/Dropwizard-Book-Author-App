@@ -2,18 +2,17 @@
 import core.Author;
 import core.Book;
 import core.Employee;
+import core.Vehicle;
 import db.AuthorDAO;
 import db.BookDAO;
 import db.EmployeeDAO;
+import db.VehicleDAO;
 import io.dropwizard.Application;
 import io.dropwizard.db.DataSourceFactory;
 import io.dropwizard.hibernate.HibernateBundle;
 import io.dropwizard.setup.Bootstrap;
 import io.dropwizard.setup.Environment;
-import resources.AuthorResources;
-import resources.BookResources;
-import resources.EmployeeResources;
-import resources.HelloWorldResource;
+import resources.*;
 import health.TemplateHealthCheck;
 
 public class HelloWorldApplication extends Application<HelloWorldConfiguration> {
@@ -25,7 +24,8 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
             = new HibernateBundle<HelloWorldConfiguration>(
             Employee.class,
             Book.class,
-            Author.class
+            Author.class,
+            Vehicle.class
     ) {
 
         @Override
@@ -67,9 +67,15 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
                 = new BookDAO(hibernateBundle.getSessionFactory());
         environment.jersey().register(new BookResources(booksDAO));
 
+        final VehicleDAO vehicleDAO
+                = new VehicleDAO(hibernateBundle.getSessionFactory());
+        environment.jersey().register(new VehicleResources(vehicleDAO));
+
         final AuthorDAO authorDAO
                 = new AuthorDAO(hibernateBundle.getSessionFactory());
-        environment.jersey().register(new AuthorResources(authorDAO));
+        environment.jersey().register(new AuthorResources(authorDAO,vehicleDAO));
+
+
 
     }
 

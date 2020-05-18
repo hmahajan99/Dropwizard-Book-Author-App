@@ -3,6 +3,7 @@ package db;
 
 import core.Author;
 import core.Employee;
+import core.Vehicle;
 import io.dropwizard.hibernate.AbstractDAO;
 import org.hibernate.Criteria;
 import org.hibernate.SessionFactory;
@@ -27,6 +28,12 @@ public class AuthorDAO  extends AbstractDAO<Author> {
         return list((Query<Author>)namedQuery("core.Author.findByName")
                 .setParameter("name", builder.toString())
         );
+    }
+
+    public Author addVehicle(Author author, Vehicle vehicle) {
+        author.getVehicles().add(vehicle);
+        vehicle.setOwner(author);
+        return author;
     }
 
     public Optional<Author> findById(long id) {
