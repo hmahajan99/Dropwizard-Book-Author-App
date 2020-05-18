@@ -28,13 +28,13 @@ public class BookResources {
     @GET
     @UnitOfWork
     public List<Book> findByName(
-            @QueryParam("name") Optional<String> name,
-            @QueryParam("author") Optional<String> author
+            @QueryParam("name") Optional<String> name
+//            ,@QueryParam("author") Optional<String> author
     ) {
         if (name.isPresent()) {
             return bookDAO.findByName(name.get());
-        }else if(author.isPresent()){
-            return bookDAO.findByAuthor(author.get());
+//        }else if(author.isPresent()){
+//            return bookDAO.findByAuthor(author.get());
         }else {
             return bookDAO.findAll();
         }

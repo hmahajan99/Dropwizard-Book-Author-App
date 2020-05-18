@@ -2,6 +2,7 @@ package db;
 
 
 import core.Author;
+import core.Book;
 import core.Employee;
 import core.Vehicle;
 import io.dropwizard.hibernate.AbstractDAO;
@@ -35,6 +36,13 @@ public class AuthorDAO  extends AbstractDAO<Author> {
         vehicle.setOwner(author);
         return author;
     }
+
+    public Author addBook(Author author, Book book) {
+        author.getBooks().add(book);
+        book.getAuthors().add(author);
+        return author;
+    }
+
 
     public Optional<Author> findById(long id) {
         return Optional.ofNullable(get(id));

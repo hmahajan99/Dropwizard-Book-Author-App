@@ -26,15 +26,6 @@ public class BookDAO extends AbstractDAO<Book>{
         );
     }
 
-    public List<Book> findByAuthor(String author) {
-        StringBuilder builder = new StringBuilder("%");
-        builder.append(author).append("%");
-        return list((Query<Book>)namedQuery("core.Book.findByAuthor")
-                .setParameter("author", builder.toString())
-        );
-    }
-
-
     public Optional<Book> findById(long id) {
         return Optional.ofNullable(get(id));
     }

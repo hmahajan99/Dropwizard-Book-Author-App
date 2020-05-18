@@ -31,6 +31,10 @@ public class Author {
     @JsonIgnoreProperties("owner") // will only ignore owner field
     private Set<Vehicle> vehicles = new HashSet<Vehicle>();
 
+    @ManyToMany // TODO: add mappedBy to avoid extras
+    @JsonIgnoreProperties("authors") // will only ignore owner field
+    private Set<Book> books = new HashSet<Book>();
+
     public Author() {
     }
 
@@ -75,5 +79,13 @@ public class Author {
 
     public void setVehicles(Set<Vehicle> vehicles) {
         this.vehicles = vehicles;
+    }
+
+    public Set<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(Set<Book> books) {
+        this.books = books;
     }
 }

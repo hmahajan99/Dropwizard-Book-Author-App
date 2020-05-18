@@ -1,7 +1,11 @@
 package core;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "books")
@@ -11,11 +15,7 @@ import java.util.Objects;
         ,
         @NamedQuery(name = "core.Book.findByName",
                 query = "select b from Book b "
-                        + "where b.name like :name "),
-        @NamedQuery(name = "core.Book.findByAuthor",
-                query = "select b from Book b "
-                        + "where b.author like :author ")
-
+                        + "where b.name like :name ")
 })
 
 public class Book {
@@ -24,16 +24,20 @@ public class Book {
     private long id;
     @Column(name = "name")
     private String name;
-    @Column(name = "author")
-    private String author;
+//    @Column(name = "author")
+//    private String author;
+
+    @ManyToMany
+    @JsonIgnoreProperties("books")
+    private Set<Author> authors = new HashSet<Author>();
+
 
     public Book() {
     }
 
-    public Book(long id, String name, String author) {
+    public Book(long id, String name) {
         this.id = id;
         this.name = name;
-        this.author = author;
     }
 
 
@@ -53,26 +57,27 @@ public class Book {
         this.name = name;
     }
 
-    public String getAuthor() {
-        return author;
+
+//    @Override
+//    public boolean equals(Object o) {
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
+//        Book book = (Book) o;
+//        return id == book.id &&
+//                name.equals(book.name) &&
+//                author.equals(book.author);
+//    }
+//
+//    @Override
+//    public int hashCode() {
+//        return Objects.hash(id, name, author);
+//    }
+
+    public Set<Author> getAuthors() {
+        return authors;
     }
 
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Book book = (Book) o;
-        return id == book.id &&
-                name.equals(book.name) &&
-                author.equals(book.author);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name, author);
+    public void setAuthors(Set<Author> authors) {
+        this.authors = authors;
     }
 }

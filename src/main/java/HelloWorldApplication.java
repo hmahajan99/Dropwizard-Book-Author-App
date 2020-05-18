@@ -73,7 +73,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
 
         final AuthorDAO authorDAO
                 = new AuthorDAO(hibernateBundle.getSessionFactory());
-        environment.jersey().register(new AuthorResources(authorDAO,vehicleDAO));
+        environment.jersey().register(new AuthorResources(authorDAO,vehicleDAO,booksDAO));
 
 
 
