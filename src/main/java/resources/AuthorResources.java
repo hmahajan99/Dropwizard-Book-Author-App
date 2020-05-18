@@ -38,9 +38,7 @@ public class AuthorResources {
 
     @GET
     @UnitOfWork
-    public List<Author> findByName(
-            @QueryParam("name") Optional<String> name
-    ) {
+    public List<Author> findByName(@QueryParam("name") Optional<String> name) {
         if (name.isPresent()) {
             return authorDAO.findByName(name.get());
         } else {
@@ -59,10 +57,11 @@ public class AuthorResources {
     @UnitOfWork
     @Consumes(MediaType.APPLICATION_JSON)
     public Author createEmployee(@Valid Author author){
-        System.out.println(author);
+//        System.out.println(author);
         return authorDAO.create(author);
     }
 
+    // request class for vehicles & books
     public static class Req{
         public int id;
     }
@@ -118,7 +117,6 @@ public class AuthorResources {
         Optional<Book> book = bookDAO.findById(req.id);
 
         if(author.isPresent()&&book.isPresent()) {
-//            authorDAO.addVehicle(author.get() , book.get());
             authorDAO.addBook(author.get(), book.get());
             return Response.accepted(author).status(200).build();
         }else {

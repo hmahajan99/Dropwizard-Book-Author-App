@@ -29,9 +29,7 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     ) {
 
         @Override
-        public DataSourceFactory getDataSourceFactory(
-                HelloWorldConfiguration configuration
-        ) {
+        public DataSourceFactory getDataSourceFactory(HelloWorldConfiguration configuration) {
             return configuration.getDataSourceFactory();
         }
 
@@ -48,32 +46,30 @@ public class HelloWorldApplication extends Application<HelloWorldConfiguration> 
     }
 
     @Override
-    public void run(HelloWorldConfiguration configuration,
-                    Environment environment) {
-        final HelloWorldResource resource = new HelloWorldResource(
-                configuration.getTemplate(),
-                configuration.getDefaultName()
-        );
-        final TemplateHealthCheck healthCheck =
-                new TemplateHealthCheck(configuration.getTemplate());
-        environment.healthChecks().register("template", healthCheck);
-        environment.jersey().register(resource);
+    public void run(HelloWorldConfiguration configuration, Environment environment) {
 
-        final EmployeeDAO employeeDAO
-                = new EmployeeDAO(hibernateBundle.getSessionFactory());
-        environment.jersey().register(new EmployeeResources(employeeDAO));
-
-        final BookDAO booksDAO
-                = new BookDAO(hibernateBundle.getSessionFactory());
+        final BookDAO booksDAO = new BookDAO(hibernateBundle.getSessionFactory());
         environment.jersey().register(new BookResources(booksDAO));
 
-        final VehicleDAO vehicleDAO
-                = new VehicleDAO(hibernateBundle.getSessionFactory());
+        final VehicleDAO vehicleDAO = new VehicleDAO(hibernateBundle.getSessionFactory());
         environment.jersey().register(new VehicleResources(vehicleDAO));
 
-        final AuthorDAO authorDAO
-                = new AuthorDAO(hibernateBundle.getSessionFactory());
+        final AuthorDAO authorDAO = new AuthorDAO(hibernateBundle.getSessionFactory());
         environment.jersey().register(new AuthorResources(authorDAO,vehicleDAO,booksDAO));
+
+//        final HelloWorldResource resource = new HelloWorldResource(
+//                configuration.getTemplate(),
+//                configuration.getDefaultName()
+//        );
+//
+//        final TemplateHealthCheck healthCheck =
+//                new TemplateHealthCheck(configuration.getTemplate());
+//
+//        environment.healthChecks().register("template", healthCheck);
+//        environment.jersey().register(resource);
+
+//        final EmployeeDAO employeeDAO = new EmployeeDAO(hibernateBundle.getSessionFactory());
+//        environment.jersey().register(new EmployeeResources(employeeDAO));
 
 
 

@@ -32,7 +32,7 @@ public class Author {
     private Set<Vehicle> vehicles = new HashSet<Vehicle>();
 
     @ManyToMany // TODO: add mappedBy to avoid extras
-    @JsonIgnoreProperties("authors") // will only ignore owner field
+    @JsonIgnoreProperties("authors")
     private Set<Book> books = new HashSet<Book>();
 
     public Author() {

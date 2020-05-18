@@ -31,13 +31,10 @@ public class BookResources {
             @QueryParam("name") Optional<String> name
 //            ,@QueryParam("author") Optional<String> author
     ) {
-        if (name.isPresent()) {
-            return bookDAO.findByName(name.get());
-//        }else if(author.isPresent()){
-//            return bookDAO.findByAuthor(author.get());
-        }else {
-            return bookDAO.findAll();
-        }
+        if (name.isPresent()) return bookDAO.findByName(name.get());
+//        else if(author.isPresent()) return bookDAO.findByAuthor(author.get());
+        else return bookDAO.findAll();
+
     }
 
     @GET
