@@ -1,6 +1,7 @@
 package core;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -26,7 +27,8 @@ public class Author {
     private String name;
 
     @OneToMany(mappedBy = "owner")
-    @JsonIgnore
+//    @JsonIgnore --> will ignore whole
+    @JsonIgnoreProperties("owner") // will only ignore owner field
     private Set<Vehicle> vehicles = new HashSet<Vehicle>();
 
     public Author() {
