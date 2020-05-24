@@ -7,6 +7,9 @@ import io.dropwizard.hibernate.UnitOfWork;
 import io.dropwizard.jersey.params.LongParam;
 import jdk.nashorn.internal.objects.annotations.Getter;
 
+import javax.annotation.security.DenyAll;
+import javax.annotation.security.PermitAll;
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -30,6 +33,7 @@ public class EmployeeResources {
 
     @GET
     @UnitOfWork
+    @PermitAll
     public List<Employee> findByName(
             @QueryParam("name") Optional<String> name
     ) {
@@ -43,6 +47,7 @@ public class EmployeeResources {
     @GET
     @Path("/{id}")
     @UnitOfWork
+    @RolesAllowed("BASIC_GUY")
     public Optional<Employee> findById(@PathParam("id") LongParam id) {
         return employeeDAO.findById(id.get());
     }
@@ -50,6 +55,7 @@ public class EmployeeResources {
     @POST
     @UnitOfWork
     @Consumes(MediaType.APPLICATION_JSON)
+    @RolesAllowed("ADMIN")
     public Employee createEmployee(@Valid Employee employee){
         System.out.println(employee);
         return employeeDAO.create(employee);
@@ -57,6 +63,7 @@ public class EmployeeResources {
 
     @POST
     @Path("/tryPost")
+    @DenyAll
     public TestClass checkPost(TestClass c){
         System.out.println(c.p1);
         return c;
